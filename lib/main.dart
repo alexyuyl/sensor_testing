@@ -35,7 +35,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Sensors sensor = Sensors();
 
   bool pressing = false;
-  dynamic data;
+  dynamic data = 'not yet';
+
+  dynamic max = 0;
+  dynamic min = 0;
 
   @override
   void initState() {
@@ -46,16 +49,38 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("sensor testing")),
-      body: Center(
-        child: (pressing == false) ? const Text("Press to start") : Text(data.toString())
+      body: Column(
+        children: [
+          Center(
+              child: (pressing == false) ? const Text("Press to start") : Row(
+                children: [
+                  Text(max.toString()),
+                  Text(min.toString())
+                ],
+              )
+          ),
+          Center(
+            child: Text(data.toString())
+          )
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){},
         child: GestureDetector(
             onLongPressStart: (LongPressStartDetails longPressStartDetails) {
               pressing = true;
-              sensor.accelerometerEvents.listen(
-                (AccelerometerEvent event) {  setState(() { data = event.x; }); }
+              sensor.userAccelerometerEvents.listen(
+                (UserAccelerometerEvent event) {
+                  setState(() {
+                    data = event;
+                    if (event.x > max) {
+                      max = event.x;
+                    }
+                    if (event.x < min) {
+                      min = event.x;
+                    }
+                  });
+                }
               );
             },
             onLongPressEnd: (LongPressEndDetails longPressEndDetails) {
