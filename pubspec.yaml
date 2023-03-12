@@ -42,6 +42,9 @@ dev_dependencies:
     sdk: flutter
   sensors_plus: ^1.4.1
   permission_handler: ^10.1.0
+  simple_kalman: ^1.0.1
+  oscilloscope: ^0.2.0+1
+  camera: ^0.9.4+1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
