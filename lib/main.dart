@@ -13,7 +13,9 @@ late CameraController cameraController;
 Future<void> main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
-  } on CameraException catch (e) {debugPrint('Error in fetching');}
+  } on CameraException catch (e) {
+    debugPrint('Error in fetching: $e');
+  }
   Permission.sensors; Permission.camera;
   cameras = await availableCameras();
   runApp(const MyApp());
@@ -84,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
       nonZeroGyroscopeDataPercentage = nonZeroCount / 100; //threshold > 0.05 (5%)
       nonZeroCount = 0;
       setState(() {
-        isDeviceMoving = nonZeroGyroscopeDataPercentage > 0.30 ? true : false;
+        isDeviceMoving = nonZeroGyroscopeDataPercentage > 0.10 ? true : false;
         filteredGyroscopeGraph = Oscilloscope(
             dataSet: filteredGyroscope, showYAxis: true, yAxisMin: -1.0);
       });
